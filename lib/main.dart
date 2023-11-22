@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:violence_app/dpmdppa/form_report.dart';
 import 'package:violence_app/screens/beranda_screen.dart';
-import 'package:violence_app/screens/community_screen.dart';
 
 void main() {
   runApp(const MyApp());

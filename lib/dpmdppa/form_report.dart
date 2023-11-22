@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:violence_app/carousel/carousel_loading.dart';
 import 'package:violence_app/styles/color.dart';
 
@@ -15,6 +16,9 @@ class _FormReportState extends State<FormReport> {
   TextEditingController _judulController = TextEditingController();
   TextEditingController _isiController = TextEditingController();
   String? selectedPengaduan;
+  DateTime? selectedDate;
+  String? selectedLocation;
+  int selectedOption = 1;
 
   StepState stepState(int step) {
     if (currentStep > step) {
@@ -125,6 +129,48 @@ class _FormReportState extends State<FormReport> {
             },
             decoration: InputDecoration(labelText: 'Pilih Pengaduan'),
           ),
+          ListTile(
+            trailing: Icon(Icons.calendar_today),
+            title: Text(selectedDate == null
+                ? 'Pilih Tanggal Kejadian'
+                : DateFormat('yyyy-MM-dd').format(selectedDate!)),
+            onTap: _pickDate,
+          ),
+          ListTile(
+            title: Text(selectedLocation ?? 'Pilih Lokasi Kejadian'),
+            trailing: Icon(Icons.map),
+            onTap: () {
+              // Implement location picker logic
+            },
+          ),
+          // Row(
+          //   children: [
+          //     ListTile(
+          //       title: const Text('Option 1'),
+          //       leading: Radio(
+          //         value: 1,
+          //         groupValue: selectedOption,
+          //         onChanged: (value) {
+          //           setState(() {
+          //             selectedOption = value!;
+          //           });
+          //         },
+          //       ),
+          //     ),
+          //     ListTile(
+          //       title: const Text('Option 2'),
+          //       leading: Radio(
+          //         value: 2,
+          //         groupValue: selectedOption,
+          //         onChanged: (value) {
+          //           setState(() {
+          //             selectedOption = value!;
+          //           });
+          //         },
+          //       ),
+          //     ),
+          //   ],
+          // )
         ],
       ),
       state: stepState(0),
@@ -137,4 +183,18 @@ class _FormReportState extends State<FormReport> {
       isActive: currentStep >= 1,
     ),
   ];
+
+  void _pickDate() async {
+    DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (date != null && date != selectedDate) {
+      setState(() {
+        selectedDate = date;
+      });
+    }
+  }
 }
