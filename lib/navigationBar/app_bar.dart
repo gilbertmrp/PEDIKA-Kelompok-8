@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../styles/color.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String name;
+
+  MyAppBar(this.name);
+
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 

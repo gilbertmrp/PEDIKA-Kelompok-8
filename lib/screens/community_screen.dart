@@ -9,10 +9,16 @@ class CommunityPage extends StatefulWidget {
 }
 
 class _CommunityPageState extends State<CommunityPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Hallo"),),
+      appBar: AppBar(
+        title: const Text("Community Page"),
+      ),
+      body: const Center(
+        child: Text('Isi dari Community Page'),
+      ),
     );
   }
 }
