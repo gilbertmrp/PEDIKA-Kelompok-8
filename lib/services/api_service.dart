@@ -10,16 +10,15 @@ import 'package:violence_app/model/auth/login_response_model.dart';
 import 'package:violence_app/model/auth/register_response_model.dart';
 import 'package:violence_app/model/report/list_report_model.dart';
 import 'package:violence_app/model/report/report_request_model.dart';
+import 'package:violence_app/model/report/report_response_model.dart';
 import 'package:violence_app/services/shared_service.dart';
 
 import '../model/auth/login_request_model.dart';
 import '../model/content_model.dart';
-import '../model/report/cancel_model.dart';
 import '../model/report/full_report_model.dart';
 import '../model/report/korban_model.dart';
 import '../model/report/report_category_model.dart';
-import '../model/report/report_response_model.dart';
-import '../model/wilayah/pelaporan/provincies.dart';
+import 'package:path/path.dart';
 
 
 class APIService {
@@ -163,77 +162,54 @@ class APIService {
     }
   }
 
-  Future<ReportResponseModel<ReportRequestModel>> submitReport(
-      int idViolenceCategory,
-      DateTime tanggalKejadian,
-      String kategoriLokasiKasus,
-      String kronologisKasus,
-      String alamatTkp,
-      String alamatDetailTkp,
-      List<File> dokumen,
+  Future<ReportResponseModel> submitReport(
+      int violenceCategory,
+      DateTime incidentDate,
+      String locationCategory,
+      String incidentDescription,
+      String detailedAddress,
+      String tkpAddress,
+      List<File> documentationFiles
       ) async {
-    FlutterSecureStorage storage = FlutterSecureStorage();
-    String? token = await storage.read(key: 'userToken');
-
+    final token = await storage.read(key: 'userToken');
     final url = Uri.parse('${Config.apiUrl}${Config.postReport}');
 
-    var request = http.MultipartRequest('POST', url);
+    var request = http.MultipartRequest('POST', url)
+      ..fields['kategori_kekerasan_id'] = violenceCategory.toString()
+      ..fields['tanggal_kejadian'] = incidentDate.toIso8601String()
+      ..fields['kategori_lokasi_kasus'] = locationCategory
+      ..fields['kronologis_kasus'] = incidentDescription
+      ..fields['alamat_detail_tkp'] = detailedAddress
+      ..fields['alamat_tkp'] = tkpAddress
+      ..headers['Authorization'] = 'Bearer $token';
 
-    request.fields['kategori_kekerasan_id'] = idViolenceCategory.toString();
-    request.fields['tanggal_kejadian'] = tanggalKejadian.toIso8601String();
-    request.fields['kategori_lokasi_kasus'] = kategoriLokasiKasus;
-    request.fields['kronologis_kasus'] = kronologisKasus;
-    request.fields['alamat_detail_tkp'] = alamatDetailTkp;
-    request.fields['alamat_tkp'] = alamatTkp;
-
-    // Tambahkan gambar default jika dokumen kosong
-    if (dokumen.isEmpty) {
-      dokumen.add(File('https://res.cloudinary.com/dz1kiuf8x/image/upload/v1717396414/c9r4yheoxsundwgngcz1.png'));
+    for (var file in documentationFiles) {
+      if (await file.exists()) {
+        var stream = http.ByteStream(file.openRead());
+        var length = await file.length();
+        var multipartFile = http.MultipartFile('dokumentasi', stream, length,
+            filename: basename(file.path));
+        request.files.add(multipartFile);
+      } else {
+        print("File does not exist: ${file.path}");
+      }
     }
-
-    for (var file in dokumen) {
-      var multipartFile = await http.MultipartFile.fromPath(
-        'dokumen',
-        file.path,
-      );
-      request.files.add(multipartFile);
-    }
-
-    request.headers.addAll({
-      'Authorization': 'Bearer $token',
-    });
 
     try {
       var streamedResponse = await request.send();
-
       final response = await http.Response.fromStream(streamedResponse);
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final jsonResponse = json.decode(response.body);
-        return ReportResponseModel<ReportRequestModel>.fromJson(
-            jsonResponse,
-                (dataJson) =>
-                ReportRequestModel.fromJson(dataJson as Map<String, dynamic>));
+      if (response.statusCode == 201) {
+        return ReportResponseModel.fromJson(json.decode(response.body));
       } else {
-        print('Response body: ${response.body}');
-        String errorMessage =
-            'Gagal mengirim laporan. Status code: ${response.statusCode}, Body: ${response.body}';
-        if (response.statusCode == 400) {
-          errorMessage =
-          'Request tidak valid. Silakan periksa input dan coba lagi.';
-        } else if (response.statusCode >= 500) {
-          errorMessage = 'Terjadi kesalahan server. Silakan coba lagi nanti.';
-        }
-        throw Exception(errorMessage);
+        print('Failed to submit report. Status code: ${response.statusCode}, Body: ${response.body}');
+        throw Exception('Failed to submit report. Status code: ${response.statusCode}, Body: ${response.body}');
       }
-    } on SocketException catch (e) {
-      throw Exception(
-          'Tidak dapat terhubung ke server. Silakan periksa koneksi internet Anda. Error: ${e.message}');
     } catch (e) {
-      throw Exception('Error pada saat mengirim laporan: $e');
+      print('Error during submitting report: $e');
+      rethrow;
     }
   }
-
 
   Future<KorbanResponseModel> submitReportKorban(
       String noRegistrasi,

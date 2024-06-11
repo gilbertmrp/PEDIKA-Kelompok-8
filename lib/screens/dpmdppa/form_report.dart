@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:violence_app/config.dart';
+import 'package:violence_app/screens/dpmdppa/report_screen.dart';
 import 'package:violence_app/styles/color.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,7 +16,11 @@ import '../../model/wilayah/pelaporan/cities.dart';
 import '../../model/wilayah/pelaporan/districts.dart';
 import '../../model/wilayah/pelaporan/provincies.dart';
 import '../../model/wilayah/pelaporan/sub_districts.dart';
+import '../../navigationBar/bottom_bar.dart';
 import '../../services/api_service.dart';
+import '../../utils/loading_dialog.dart';
+import '../beranda_screen.dart';
+import '../profile/profile_screen.dart';
 
 class FormReportDPMADPPA extends StatefulWidget {
   const FormReportDPMADPPA({Key? key}) : super(key: key);
@@ -316,7 +321,7 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
 
   late List<CameraDescription> cameras;
   late CameraController cameraController;
-  XFile? imageFile;
+  File? imageFile;
   ImageProvider? imagePreview;
   Future<void>? _initializeCameraFuture;
   double currentZoomLevel = 1.0;
@@ -414,19 +419,21 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
     }
   }
 
-  void setImagePreview(XFile file) {
+  void setImagePreview(XFile xFile) {
+    File file = File(xFile.path);
     setState(() {
       imageFile = file;
-      imagePreview = FileImage(File(file.path));
-      print('Preview diupdate');
+      imagePreview = FileImage(file);
+      print('Preview diupdate dengan file baru: ${file.path}');
     });
   }
 
+
   Widget imageTakenWidget() {
-    if (imagePreview != null) {
+    if (imageFile != null) {
       return Image(
         key: UniqueKey(),
-        image: imagePreview!,
+        image: FileImage(imageFile!),
         width: MediaQuery
             .of(context)
             .size
@@ -451,9 +458,9 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
     }
 
     try {
-      XFile file = await cameraController.takePicture();
-      print('Gambar diambil: ${file.path}'); // Cetak path file
-      setImagePreview(file);
+      XFile xFile = await cameraController.takePicture();
+      print('Gambar diambil: ${xFile.path}');
+      setImagePreview(xFile);
     } catch (e) {
       print(e);
     }
@@ -478,11 +485,11 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
 
     if (image != null) {
       setState(() {
-        imageFile = image;
-        imagePreview = FileImage(File(image.path));
+        imageFile = File(image.path);
       });
     }
   }
+
 
   Future<void> pickVideoFromGallery() async {
     final ImagePicker _picker = ImagePicker();
@@ -619,7 +626,7 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
                   ),
                   const SizedBox(height: 10,),
                   ListTile(
-                    title: Text("Tanggal Pelaporan: ${tanggalPelaporan != null ? DateFormat('yyyy/MM/dd').format(tanggalPelaporan!) : 'Pilih tanggal'}"),
+                    title: Text("Tanggal Kejadian: ${tanggalPelaporan != null ? DateFormat('yyyy/MM/dd').format(tanggalPelaporan!) : 'Pilih tanggal'}"),
                     trailing: Icon(Icons.calendar_today),
                     onTap: () {
                       _selectDate(context);
@@ -1141,26 +1148,7 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () async {
-                // Menampilkan dialog konfirmasi dan menunggu hasilnya
-                final bool? isAgree = await showConfirmDialog(context);
-                // Jika pengguna setuju (isChecked == true), tampilkan snackbar
-                if (isAgree ?? false) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Terima kasih telah setuju!'),
-                      backgroundColor: Colors.green,
-                      behavior: SnackBarBehavior.floating, // Membuat snackbar "mengambang"
-                      margin: EdgeInsets.only(
-                        bottom: 80.0, // Atur jarak dari bawah. Sesuaikan nilai ini sesuai dengan posisi BottomNavigationBar atau elemen lain.
-                        left: 15.0,
-                        right: 15.0,
-                      ),
-                    ),
-                  );
-                }
-              },
-
+              onPressed: submitReport,
               style: ElevatedButton.styleFrom(
                 primary: AppColor.primaryColor,
                 onPrimary: Colors.white,
@@ -1206,98 +1194,46 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
     }
   }
 
-  Future<bool?> showConfirmDialog(BuildContext context) {
-    bool isChecked = false; // Variable untuk menyimpan status checkbox
-    return showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Konfirmasi'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Apakah Anda setuju?'),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        // Update nilai isChecked ketika nilai checkbox berubah
-                        isChecked = value!;
-                        // Perlu memaksa rebuild widget dalam dialog
-                        (context as Element).markNeedsBuild();
-                      },
-                    ),
-                    Text('Ya, saya setuju'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Batal'),
-              onPressed: () {
-                Navigator.of(context).pop(false); // Tutup dialog dan kirimkan nilai false
-              },
-            ),
-            TextButton(
-              child: Text('Submit'),
-              onPressed: () {
-                Navigator.of(context).pop(isChecked); // Tutup dialog dan kirimkan nilai isChecked
-              },
-            ),
-          ],
+  Future<void> submitReport() async {
+    int? idKategoriKekerasan = selectedCategoryId;
+    DateTime? tanggalKejadian = tanggalPelaporan;
+    String? lokasiKasus = _kategoriLokasiKasus.text;
+    String? kronologi = _kronologiKasus.text;
+    String? provinsi = _provinsiKasus.text;
+    String? kabupaten = _kabupatenKasus.text;
+    String? kecamatan = _kecamatanKasus.text;
+    String? desa = _desaKasus.text;
+    String? alamatTkp = "$provinsi, $kabupaten, $kecamatan, $desa";
+    String? alamatDetailTkp = _alamatDetail.text;
+
+    try {
+      showLoadingAnimated(context);
+
+      var response = await APIService().submitReport(
+        idKategoriKekerasan!,
+        tanggalKejadian!,
+        lokasiKasus,
+        kronologi,
+        alamatDetailTkp,
+        alamatTkp,
+        [imageFile!],
+      );
+
+      if (response.code == 201) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const BottomNavigationWidget(initialIndex: 1, pages: [
+            HomePage(), ReportScreen(), ProfilePage()
+          ])),
+              (Route<dynamic> route) => false,
         );
-      },
-    );
+        print("Laporan berhasil dikirim.");
+      } else {
+        print("Gagal mengirim laporan: ${response.message}");
+      }
+    } catch (e) {
+      print('Error saat mengirim laporan: $e');
+    } finally {
+      closeLoadingDialog(context);
+    }
   }
-
-// Future<void> submitReport() async {
-//   int? userIdS = Provider.of<UserProvider>(context, listen: false).userId;
-//   if (_formKey.currentState!.validate()) {
-//     int? userId = userIdS;
-//     String judul = _judulController.text;
-//     String isi = _isiController.text;
-//     String tanggal = DateFormat('yyyy-MM-dd').format(selectedDate!);
-//     String lokasi = _lokasiController.text;
-//     String visibilityString = visibility.toString();
-//     String? token = await _storage.read(key: 'userToken');
-//     print("Submitting report...");
-//     print(token);
-//
-//     final response = await http.post(
-//       Uri.parse('${Config.apiUrl}${Config.postFormAPIDPMADPPA}'),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//         'Authorization': 'Bearer $token',
-//       },
-//       body: jsonEncode({
-//         'user_id': userId,
-//         'judul_pelaporan': judul,
-//         'visibility': visibilityString,
-//         'isi_laporan': isi,
-//         'tanggal_kejadian': tanggal,
-//         'lokasi_kejadian': lokasi,
-//       }),
-//     );
-//     if (response.statusCode == 200 || response.statusCode == 201) {
-//       print("Data has been created");
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(content: Text('Laporan berhasil dibuat!')),
-//       );
-//
-//       Future.delayed(const Duration(seconds: 2), () {
-//         Navigator.of(context).pop();
-//         Navigator.of(context).pop();
-//         Navigator.of(context).pop();
-//       });
-//     } else {
-//       print('Error: Server responded with status code: ${response.statusCode}');
-//       print('Response body: ${response.body}');
-//       throw Exception('Failed to create pelaporan');
-//     }
-//   }
-// }
-
 }

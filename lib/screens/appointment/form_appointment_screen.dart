@@ -173,7 +173,7 @@ class _FormAppointmentScreenState extends State<FormAppointmentScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                const Text("Keperluan Temu",
+                const Text("Tujuan Janji Temu",
                   style: TextStyle(
                       fontSize: 12
                   ),
@@ -186,7 +186,7 @@ class _FormAppointmentScreenState extends State<FormAppointmentScreen> {
                   maxLines: 5,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Harap masukkan keperluan temu';
+                      return 'Harap masukkan tujuan temu';
                     }
                     return null;
                   },
@@ -263,7 +263,7 @@ class _FormAppointmentScreenState extends State<FormAppointmentScreen> {
     try {
       AppointmentResponseModel responseModel = await APIService().submitAppointment(waktuMulai, waktuSelesai, keperluanKonsultasi);
 
-      Navigator.of(context).pop(); // Tutup dialog loading
+      Navigator.of(context).pop();
 
       if (responseModel.code == 201) {
         Navigator.of(context).pushAndRemoveUntil(

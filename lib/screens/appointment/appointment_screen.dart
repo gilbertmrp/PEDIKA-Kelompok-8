@@ -539,8 +539,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   },
                 ),
               ),
-              const Flexible(
-                child: Text("Tempat: DPMDPPPA Kabupaten Toba Jl. Siliwangi No.1, Kec. Balige, Toba, Sumatera Utara"),
+              Flexible(
+                child: Text(appointment.keperluanKonsultasi),
               ),
               Text('Waktu: ${formattedDate} Pukul ${jamMulai} - ${jamSelesai} WIB'),
             ],

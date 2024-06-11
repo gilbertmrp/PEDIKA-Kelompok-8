@@ -88,10 +88,6 @@ class _TrackingPageState extends State<TrackingPage> {
                       isThreeLine: true,
                       contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
                     ),
-                    ListTile(
-                      leading: Text(jam, style: const TextStyle(fontSize: 12.0, color: Colors.grey)),
-                      title: const Text("Laporan masuk", style: TextStyle(fontSize: 14.0)),
-                    ),
                   ],
                 );
               },

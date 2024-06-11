@@ -1,22 +1,18 @@
-class ReportResponseModel<T> {
+import 'package:violence_app/model/report/report_request_model.dart';
+
+class ReportResponseModel {
   final int code;
   final String status;
   final String message;
-  final T? data;
+  final ReportRequestModel data;
 
-  ReportResponseModel({
-    required this.code,
-    required this.status,
-    required this.message,
-    this.data,
-  });
-
-  factory ReportResponseModel.fromJson(Map<String, dynamic> json, T Function(Object? json) fromJsonT) {
+  ReportResponseModel({required this.code, required this.status, required this.message, required this.data});
+  factory ReportResponseModel.fromJson(Map<String, dynamic> json) {
     return ReportResponseModel(
       code: json['code'],
       status: json['status'],
       message: json['message'],
-      data: json['Data'] != null ? fromJsonT(json['Data']) : null,
+      data: ReportRequestModel.fromJson(json['Data']),
     );
   }
 
@@ -25,7 +21,7 @@ class ReportResponseModel<T> {
       'code': code,
       'status': status,
       'message': message,
-      'Data': data,
+      'Data': data.toJson(),
     };
   }
 }
