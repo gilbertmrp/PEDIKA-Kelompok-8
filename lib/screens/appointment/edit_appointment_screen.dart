@@ -197,9 +197,8 @@ class _EditAppointmentScreenState extends State<EditAppointmentScreen> {
                         Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: AppColor.primaryColor,
+                        foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                         textStyle: const TextStyle(fontSize: 15),
-                        onPrimary: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -212,9 +211,8 @@ class _EditAppointmentScreenState extends State<EditAppointmentScreen> {
                     ElevatedButton(
                       onPressed: editAppointment,
                       style: ElevatedButton.styleFrom(
-                        primary: AppColor.primaryColor,
+                        foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                         textStyle: const TextStyle(fontSize: 15),
-                        onPrimary: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),

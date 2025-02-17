@@ -292,8 +292,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ElevatedButton(
                                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterPage())),
                                   style: ElevatedButton.styleFrom(
-                                    primary: AppColor.primaryColor,
-                                    onPrimary: Colors.white,
+                                    foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -304,8 +303,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 OutlinedButton(
                                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage())),
                                   style: OutlinedButton.styleFrom(
-                                    primary: AppColor.primaryColor,
-                                    shape: RoundedRectangleBorder(
+                                    foregroundColor: AppColor.primaryColor, shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),

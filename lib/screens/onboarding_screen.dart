@@ -86,8 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         height: 56,
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            primary: AppColor.primaryColor,
-                            textStyle: TextStyle(fontSize: 16, color: AppColor.primaryColor),
+                            foregroundColor: AppColor.primaryColor, textStyle: TextStyle(fontSize: 16, color: AppColor.primaryColor),
                             shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10))
                             ),

@@ -198,9 +198,8 @@ class _FormAppointmentScreenState extends State<FormAppointmentScreen> {
                     ElevatedButton(
                       onPressed: (){},
                       style: ElevatedButton.styleFrom(
-                        primary: AppColor.primaryColor,
+                        foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                         textStyle: const TextStyle(fontSize: 15),
-                        onPrimary: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -213,9 +212,8 @@ class _FormAppointmentScreenState extends State<FormAppointmentScreen> {
                     ElevatedButton(
                       onPressed: createAppointment,
                       style: ElevatedButton.styleFrom(
-                        primary: AppColor.primaryColor,
+                        foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                         textStyle: const TextStyle(fontSize: 15),
-                        onPrimary: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),

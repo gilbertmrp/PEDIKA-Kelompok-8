@@ -149,9 +149,8 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
                   ElevatedButton(
                     onPressed: (){},
                     style: ElevatedButton.styleFrom(
-                      primary: AppColor.primaryColor,
+                      foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                       textStyle: const TextStyle(fontSize: 15),
-                      onPrimary: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -166,9 +165,8 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
                       if (_isButtonEnabled.value) _handleCancel();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: AppColor.primaryColor,
+                      foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                       textStyle: const TextStyle(fontSize: 15),
-                      onPrimary: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),

@@ -813,8 +813,7 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
                               _onStepCancel();
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: AppColor.primaryColor,
-                              onPrimary: Colors.white,
+                              foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                               minimumSize: const Size(double.infinity, 50),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
@@ -837,8 +836,7 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
                                 _onStepContinue();
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: AppColor.primaryColor,
-                                onPrimary: Colors.white,
+                                foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                                 minimumSize: const Size(double.infinity, 50),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
@@ -966,8 +964,7 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
                     children: [
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          primary: Colors.black,
-                          side: BorderSide(color: AppColor.primaryColor, width: 2),
+                          foregroundColor: Colors.black, side: BorderSide(color: AppColor.primaryColor, width: 2),
                           textStyle: const TextStyle(fontSize: 15),
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)
@@ -986,9 +983,8 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
                       ElevatedButton(
                         onPressed: _onStepContinue,
                         style: ElevatedButton.styleFrom(
-                          primary: AppColor.primaryColor,
+                          foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                           textStyle: const TextStyle(fontSize: 15),
-                          onPrimary: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -1037,8 +1033,7 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: AppColor.primaryColor,
-                        onPrimary: Colors.white,
+                        foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
@@ -1150,8 +1145,7 @@ class _FormReportDPMADPPAState extends State<FormReportDPMADPPA> with WidgetsBin
             child: ElevatedButton(
               onPressed: submitReport,
               style: ElevatedButton.styleFrom(
-                primary: AppColor.primaryColor,
-                onPrimary: Colors.white,
+                foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),

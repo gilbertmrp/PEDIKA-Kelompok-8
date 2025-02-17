@@ -259,8 +259,7 @@ class _FormReportPoliceState extends State<FormReportPolice> {
                 ElevatedButton(
                   onPressed: _onStepContinue,
                   style: ElevatedButton.styleFrom(
-                    primary: AppColor.primaryColor,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -369,8 +368,7 @@ class _FormReportPoliceState extends State<FormReportPolice> {
                 ElevatedButton(
                   onPressed: _onStepCancel,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: Colors.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -384,8 +382,7 @@ class _FormReportPoliceState extends State<FormReportPolice> {
                     submitReport();
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: AppColor.primaryColor,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: AppColor.primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),

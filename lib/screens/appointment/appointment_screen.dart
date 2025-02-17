@@ -372,8 +372,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           TextButton(
                             onPressed: null,
                             style: TextButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              primary: Colors.blueAccent,
+                              foregroundColor: Colors.blueAccent, backgroundColor: Colors.transparent,
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             ),
@@ -382,8 +381,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           TextButton(
                             onPressed: null,
                             style: TextButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              primary: Colors.green,
+                              foregroundColor: Colors.green, backgroundColor: Colors.transparent,
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             ),
@@ -392,8 +390,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           TextButton(
                             onPressed: null,
                             style: TextButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              primary: Colors.red,
+                              foregroundColor: Colors.red, backgroundColor: Colors.transparent,
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             ),
@@ -402,8 +399,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           TextButton(
                             onPressed: null,
                             style: TextButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              primary: Colors.red,
+                              foregroundColor: Colors.red, backgroundColor: Colors.transparent,
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             ),
